@@ -53,12 +53,16 @@ class BoundedArray
 public:
   void set(int index, T value)
   {
+    if (index < 0)
+      throw erroIndiceNegativo();
     buf[index] = value;
   }
   T get(int index)
   {
     if (index >= N)
-      throw erroIndiceInicio();
+      throw erroIndiceMaior();
+    else if (index < 0)
+      throw erroIndiceNegativo();
     return buf[index];
   }
 
