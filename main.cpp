@@ -10,7 +10,7 @@ protected:
 public:
   erroIndiceInicio()
   {
-    strcpy(msg, "Erro: indice nao inicializado.");
+    strcpy(msg, "Erro: indice nao inicializado.\n");
   }
   virtual const char *what()
   {
@@ -25,7 +25,7 @@ protected:
 public:
   erroIndiceNegativo()
   {
-    strcpy(msg, "Erro: indice negativo.");
+    strcpy(msg, "Erro: indice negativo.\n");
   }
   virtual const char *what()
   {
@@ -40,7 +40,7 @@ protected:
 public:
   erroIndiceMaior()
   {
-    strcpy(msg, "Erro: indice maior que arranjo.");
+    strcpy(msg, "Erro: indice maior que arranjo.\n");
   }
   virtual const char *what()
   {
@@ -53,9 +53,12 @@ class BoundedArray
 public:
   void set(int index, T value)
   {
-    if (index < 0)
+    if (index >= N)
+      throw erroIndiceMaior();
+    else if (index < 0)
       throw erroIndiceNegativo();
     buf[index] = value;
+    verif[index] = true;
   }
   T get(int index)
   {
@@ -63,11 +66,14 @@ public:
       throw erroIndiceMaior();
     else if (index < 0)
       throw erroIndiceNegativo();
+    else if (verif[index] == false)
+      throw erroIndiceInicio();
     return buf[index];
   }
 
 private:
   T buf[N];
+  bool verif[N];
 };
 
 template <class T>
@@ -92,47 +98,40 @@ void testArray()
         std::cout << a.get(index) << std::endl;
       }
     }
+    catch (erroIndiceInicio e)
+    {
+      cerr << e.what();
+    }
+    catch (erroIndiceNegativo e)
+    {
+      cerr << e.what();
+    }
+    catch (erroIndiceMaior e)
+    {
+      cerr << e.what();
+    }
     catch (...)
     {
-      std::cerr << "Erro desconhecido." << std::endl;
+      cerr << "Erro inesperado!";
     }
   }
 }
 
 int main()
 {
-  try
+  char type;
+  std::cin >> type;
+  switch (type)
   {
-    char type;
-    std::cin >> type;
-    switch (type)
-    {
-    case 'd':
-      testArray<double>();
-      break;
-    case 'i':
-      testArray<int>();
-      break;
-    case 's':
-      testArray<std::string>();
-      break;
-    }
-  }
-  catch (erroIndiceInicio e)
-  {
-    cerr << e.what();
-  }
-  catch (erroIndiceNegativo e)
-  {
-    cerr << e.what();
-  }
-  catch (erroIndiceMaior e)
-  {
-    cerr << e.what();
-  }
-  catch (...)
-  {
-    cerr << "Erro inesperado!";
+  case 'd':
+    testArray<double>();
+    break;
+  case 'i':
+    testArray<int>();
+    break;
+  case 's':
+    testArray<std::string>();
+    break;
   }
 
   return 0;
