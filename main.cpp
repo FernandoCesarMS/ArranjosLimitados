@@ -51,6 +51,13 @@ template <class T, int N>
 class BoundedArray
 {
 public:
+  BoundedArray()
+  {
+    for (int i = 0; i < N; i++)
+    {
+      verif[i] = false;
+    }
+  }
   void set(int index, T value)
   {
     if (index >= N)
@@ -66,8 +73,12 @@ public:
       throw erroIndiceMaior();
     else if (index < 0)
       throw erroIndiceNegativo();
-    else if (verif[index] == false)
+    if (verif[index] == false)
+    {
       throw erroIndiceInicio();
+      std::cout << "Erro: indice não inicializado.\n";
+    }
+
     return buf[index];
   }
 
