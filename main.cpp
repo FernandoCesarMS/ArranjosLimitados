@@ -17,6 +17,36 @@ public:
     return msg;
   }
 };
+class erroIndiceNegativo : public exception
+{
+protected:
+  char msg[100];
+
+public:
+  erroIndiceNegativo(const char *e)
+  {
+    strcpy(msg, e);
+  }
+  virtual const char *what()
+  {
+    return msg;
+  }
+};
+class erroIndiceMaior : public exception
+{
+protected:
+  char msg[100];
+
+public:
+  erroIndiceMaior(const char *e)
+  {
+    strcpy(msg, e);
+  }
+  virtual const char *what()
+  {
+    return msg;
+  }
+};
 template <class T, int N>
 class BoundedArray
 {
