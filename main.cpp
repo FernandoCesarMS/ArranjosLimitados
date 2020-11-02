@@ -10,7 +10,7 @@ protected:
 public:
   erroIndiceInicio(const char *e)
   {
-    strcpy(msg, e);
+    strcpy(msg, "Erro: indice nao inicializado.");
   }
   virtual const char *what()
   {
@@ -20,12 +20,12 @@ public:
 class erroIndiceNegativo : public exception
 {
 protected:
-  char msg[100];
+  char msg[100]; 
 
 public:
-  erroIndiceNegativo(const char *e)
+  erroIndiceNegativo()
   {
-    strcpy(msg, e);
+    strcpy(msg, "Erro: indice negativo.");
   }
   virtual const char *what()
   {
@@ -38,15 +38,15 @@ protected:
   char msg[100];
 
 public:
-  erroIndiceMaior(const char *e)
+  erroIndiceMaior()
   {
-    strcpy(msg, e);
+    strcpy(msg, "Erro: indice maior que arranjo.");
   }
   virtual const char *what()
   {
     return msg;
   }
-}; 
+};
 template <class T, int N>
 class BoundedArray
 {
