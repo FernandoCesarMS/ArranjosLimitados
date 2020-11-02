@@ -46,7 +46,7 @@ public:
   {
     return msg;
   }
-};
+}; 
 template <class T, int N>
 class BoundedArray
 {
