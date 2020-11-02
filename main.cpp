@@ -8,7 +8,7 @@ protected:
   char msg[100];
 
 public:
-  erroIndiceInicio(const char *e)
+  erroIndiceInicio()
   {
     strcpy(msg, "Erro: indice nao inicializado.");
   }
@@ -20,7 +20,7 @@ public:
 class erroIndiceNegativo : public exception
 {
 protected:
-  char msg[100]; 
+  char msg[100];
 
 public:
   erroIndiceNegativo()
@@ -57,6 +57,8 @@ public:
   }
   T get(int index)
   {
+    if (index >= N)
+      throw erroIndiceInicio();
     return buf[index];
   }
 
@@ -95,19 +97,39 @@ void testArray()
 
 int main()
 {
-  char type;
-  std::cin >> type;
-  switch (type)
+  try
   {
-  case 'd':
-    testArray<double>();
-    break;
-  case 'i':
-    testArray<int>();
-    break;
-  case 's':
-    testArray<std::string>();
-    break;
+    char type;
+    std::cin >> type;
+    switch (type)
+    {
+    case 'd':
+      testArray<double>();
+      break;
+    case 'i':
+      testArray<int>();
+      break;
+    case 's':
+      testArray<std::string>();
+      break;
+    }
   }
+  catch (erroIndiceInicio e)
+  {
+    cerr << e.what();
+  }
+  catch (erroIndiceNegativo e)
+  {
+    cerr << e.what();
+  }
+  catch (erroIndiceMaior e)
+  {
+    cerr << e.what();
+  }
+  catch (...)
+  {
+    cerr << "Erro inesperado!";
+  }
+
   return 0;
 }
